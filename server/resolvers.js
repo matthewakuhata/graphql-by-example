@@ -15,6 +15,10 @@ export const resolvers = {
 
       deleteJob: (root, { id }) => {
          return Job.delete(id);
+      },
+
+      updateJob: (root, { input }) => {
+         return Job.update(input);
       }
    },
 
