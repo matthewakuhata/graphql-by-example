@@ -9,21 +9,31 @@ export const resolvers = {
    },
 
    Mutation: {
-      createJob: (root, { input }) => {
-         return Job.create(input);
+      createJob: (root, { input }, { user }) => {
+
+         if (!user) {
+            throw new Error('Unauthorized request!')
+         }
+         return Job.create({ companyId: user.companyId, ...input });
       },
 
-      deleteJob: (root, { id }) => {
+      deleteJob: (root, { id }, { user }) => {
+         if (!user) {
+            throw new Error('Unauthorized request!')
+         }
          return Job.delete(id);
       },
 
-      updateJob: (root, { input }) => {
+      updateJob: (root, { input }, { user }) => {
+         if (!user) {
+            throw new Error('Unauthorized request!')
+         }
          return Job.update(input);
       }
    },
 
    Job: {
-      company: (root, ctx) => Company.findById(root.companyId)
+      company: (root, _variables, ctx) => Company.findById(root.companyId)
    },
 
    Company: {
