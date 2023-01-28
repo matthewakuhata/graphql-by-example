@@ -1,14 +1,10 @@
-import { useState, useEffect } from 'react';
-import { getJobs } from '../graphql/queries'
+import useJobs from '../hooks/useJobs'
 import JobList from './JobList';
 
 function JobBoard() {
-  const [jobs, setJobs] = useState([]);
+  const { jobs, loading } = useJobs();
 
-  useEffect(() => {
-    getJobs().then(setJobs);
-  }, [])
-
+  if (loading) return <p>Loading...</p>
   return (
     <div>
       <h1 className="title">
